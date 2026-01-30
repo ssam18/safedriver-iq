@@ -1,0 +1,3 @@
+model_type: random_forest
+model_name: Random Forest
+random_state: 126
