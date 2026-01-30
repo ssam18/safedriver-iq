@@ -1,0 +1,16 @@
+====================
+#  Release Notes  #
+====================
+04/08/20245: 
+This is the first 2023 CRSS file release.
+Refer to the "Crash Report Sampling System Analytical User's Manual, 2016-2023," for guidance when using these data. https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707
+
+The vPICDecode and vPICTrailerDecode files are created using NHTSA's vPIC tool and contain the vPIC decode 
+results for cleanly decoded VINs. For detailed information about these files, please refer to "Product Information Catalog and Vehicle Listing (vPIC) Analytical User's Manual, 2023" 
+https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813697
+
+Format files are provided as SAS Viya. For use on 32-bit or 64-bit environments, use the formats23.sas program file and compile it to create the format catalog file.
+
+
+07/03/2025: 
+The ACC_TYPE Crash Type detail included in the Vehicle file for FARS 2022 and earlier years has been restored to the Vehicle file in this version.  Please see the 2022 FARS Coding and Validation Manual for the PC23 â€“ Crash Type data element.
