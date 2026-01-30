@@ -41,32 +41,85 @@ Instead of predicting crashes, we model the **distance from crash** - quantifyin
 - **1,032,571 person records**
 - Files: ACCIDENT.csv, VEHICLE.csv, PERSON.csv, PBTYPE.csv
 
+## System Architecture
+
+```mermaid
+graph TB
+    subgraph "Data Layer"
+        A[CRSS Data<br/>2016-2023<br/>417K Crashes] --> B[Data Loader]
+        B --> C[Feature Engineer<br/>120+ Features]
+    end
+    
+    subgraph "ML Pipeline"
+        C --> D[Crash Pattern<br/>Analysis]
+        C --> E[Synthetic Safe<br/>Samples]
+        D --> F[Model Training<br/>RF/XGBoost/GB]
+        E --> F
+        F --> G[Best Model<br/>Selection]
+    end
+    
+    subgraph "Inverse Modeling"
+        G --> H[Safety Score<br/>Computation<br/>0-100]
+        H --> I[Good Driver<br/>Profile<br/>Extraction]
+    end
+    
+    subgraph "Real-Time System"
+        I --> J[Real-Time<br/>Calculator]
+        J --> K{Safety Level}
+        K -->|Critical 0-40| L[Emergency<br/>Warnings]
+        K -->|Medium 40-70| M[Improvement<br/>Suggestions]
+        K -->|Excellent 70+| N[Positive<br/>Feedback]
+    end
+    
+    subgraph "Applications"
+        J --> O[Streamlit<br/>Dashboard]
+        J --> P[Scenario<br/>Simulator]
+        I --> Q[SHAP Analysis<br/>Interpretability]
+    end
+    
+    style A fill:#e1f5ff
+    style G fill:#90ee90
+    style H fill:#ffd700
+    style J fill:#ff69b4
+    style O fill:#87ceeb
+```
+
 ## Project Structure
 
 ```
+├── CRSS_Data/                  # National crash database (2016-2023)
+│   ├── 2016/                   # Year-wise crash data
+│   ├── 2017/
+│   └── ...
 ├── data/
 │   ├── raw/                    # Downloaded CRSS files
 │   ├── processed/              # Cleaned datasets
 │   └── external/               # VMT exposure data
 ├── notebooks/
 │   ├── 01_data_exploration.ipynb
-│   ├── 02_feature_engineering.ipynb
-│   ├── 03_crash_clustering.ipynb
-│   ├── 04_inverse_safety_model.ipynb
-│   └── 05_good_driver_profile.ipynb
+│   ├── 02_train_inverse_model.ipynb
+│   └── 03_shap_analysis.ipynb
 ├── src/
-│   ├── data_loader.py
-│   ├── preprocessing.py
-│   ├── feature_engineering.py
-│   ├── models.py
-│   ├── safety_score.py
-│   └── visualization.py
+│   ├── data_loader.py          # CRSS data loading
+│   ├── preprocessing.py        # Data cleaning
+│   ├── feature_engineering.py  # 120+ features
+│   ├── models.py              # Model training/saving
+│   ├── safety_score.py        # Score computation
+│   ├── realtime_calculator.py # Live safety scoring
+│   ├── scenario_simulator.py  # What-if analysis
+│   └── visualization.py       # Plotting utilities
 ├── tests/
+│   ├── test_data_loader.py
+│   ├── test_feature_engineering.py
+│   ├── test_models.py
+│   ├── test_preprocessing.py
+│   └── test_realtime_calculator.py
 ├── results/
-│   ├── figures/
-│   └── tables/
+│   ├── figures/               # Visualizations
+│   ├── tables/                # Analysis results
+│   └── models/                # Trained models
 └── app/
-    └── streamlit_app.py        # Interactive dashboard
+    └── streamlit_app.py       # Interactive dashboard
 ```
 
 ## Quick Start (5 Minutes)
