@@ -14,29 +14,29 @@ ENV/
 *.ipynb_checkpoints
 
 # Data files - exclude large CRSS data
-CRSS_Data/
-data/raw/*.csv
-data/raw/*.sas7bdat
-data/raw/*.txt
-data/processed/*.csv
-data/processed/*.parquet
-*.sas7bcat
+#CRSS_Data/
+#data/raw/*.csv
+#data/raw/*.sas7bdat
+#data/raw/*.txt
+#data/processed/*.csv
+#data/processed/*.parquet
+#*.sas7bcat
 
 # Results
-results/figures/*.png
-results/figures/*.pdf
-results/tables/*.csv
-results/models/*.pkl
+#results/figures/*.png
+#results/figures/*.pdf
+#results/tables/*.csv
+#results/models/*.pkl
 
 # Coverage reports
-htmlcov/
-.coverage
-coverage.xml
+#htmlcov/
+#.coverage
+#coverage.xml
 .pytest_cache/
 
 # IDE
-.vscode/
-.idea/
+#.vscode/
+#.idea/
 *.swp
 *.swo
 
@@ -45,10 +45,10 @@ coverage.xml
 Thumbs.db
 
 # Models
-*.pkl
-*.joblib
-*.h5
-*.model
+#*.pkl
+#*.joblib
+#*.h5
+#*.model
 
 # Logs
 *.log
@@ -58,5 +58,5 @@ Thumbs.db
 !README.md
 
 # Temporary test files
-check_distributions.py
-test_model_direct.py
+#check_distributions.py
+#test_model_direct.py
