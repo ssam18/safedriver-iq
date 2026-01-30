@@ -1,0 +1,19 @@
+# Testing dependencies for SafeDriver-IQ
+
+# Core testing framework
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0
+pytest-xdist>=3.0.0  # Parallel testing
+
+# Code quality
+pytest-flake8>=1.1.0
+pytest-pylint>=0.18.0
+
+# Test utilities
+hypothesis>=6.70.0  # Property-based testing
+faker>=18.0.0  # Fake data generation
+freezegun>=1.2.0  # Time mocking
+
+# Coverage reporting
+coverage[toml]>=7.0.0

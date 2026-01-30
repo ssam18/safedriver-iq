@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints
+
+# Data files - exclude large CRSS data
+CRSS_Data/
+data/raw/*.csv
+data/raw/*.sas7bdat
+data/raw/*.txt
+data/processed/*.csv
+data/processed/*.parquet
+*.sas7bcat
+
+# Results
+results/figures/*.png
+results/figures/*.pdf
+results/tables/*.csv
+results/models/*.pkl
+
+# Coverage reports
+htmlcov/
+.coverage
+coverage.xml
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Models
+*.pkl
+*.joblib
+*.h5
+*.model
+
+# Logs
+*.log
+
+# Documentation - exclude all .md except README.md
+*.md
+!README.md
+
+# Temporary test files
+check_distributions.py
+test_model_direct.py
