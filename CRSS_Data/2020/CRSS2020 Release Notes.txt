@@ -1,0 +1,20 @@
+===================
+#  Release Notes  #
+===================
+
+3/2/2022: This is the first 2020 CRSS file release.
+Publish VPICDECODE and VPICTRAILERDECODE files. These files are created using NHTSA's vPIC tool and contains the vPIC decode results for cleanly decoded VINs. For detailed information about this file, please refer to "Product Information Catalog and Vehicle Listing (vPIC) Analytical User's Manual, 2020"
+Stop publishing three ADS related data fields from VEHICLE file (ADS_PRES, ADS_EN, ADS_LEV)
+Auxiliary files and non-auxiliary files are zipped separately.
+There are 28 non-auxiliary files and 3 auxiliary files.
+
+9/26/2022: The following updates have been made to the files:
+All SAS and CSV files have been recreated to correct the issues identified for the WEIGHT.
+VPICDECODE andVPICTRAILERDECODE files have been updated to remove the sample 
+related variables including PSU, PSU_VAR, PSUSTRAT, REGION, URBANICITY, STRATUM, PJ 
+and WEIGHT. 
+
+4/01/2024: The following updates have been made to the files:
+Updated vPICDecode and Auxiliary files. 
+The vPICDecode and vPICTrailerDecode files are created using NHTSA's vPIC tool and contain the vPIC decode results for cleanly decoded VINs. For detailed information about these files, please refer to "Product Information Catalog and Vehicle Listing (vPIC) Analytical User's Manual, 2022" 
+https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813547
