@@ -1,0 +1,14 @@
+==================
+# Release Notes  #
+==================
+
+04/03/2023: This is the first 2021 CRSS file release.
+Refer to the "Crash Report Sampling System Analytical User's Manual, 2016-2021," for guidance when using these data. https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436 
+The vPICDecode and vPICTrailerDecode files are created using NHTSA's vPIC tool and contain the vPIC decode results for cleanly decoded VINs. For detailed information about these files, please refer to "Product Information Catalog and Vehicle Listing (vPIC) Analytical User's Manual, 2021" 
+https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813348 
+
+
+4/01/2024: The following updates have been made to the files:
+Updated vPICDecode and Auxiliary files. 
+The vPICDecode and vPICTrailerDecode files are created using NHTSA's vPIC tool and contain the vPIC decode results for cleanly decoded VINs. For detailed information about these files, please refer to "Product Information Catalog and Vehicle Listing (vPIC) Analytical User's Manual, 2022" 
+https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813547
