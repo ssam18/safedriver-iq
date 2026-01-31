@@ -52,8 +52,18 @@ class RealtimeSafetyCalculator:
     def _load_model(self):
         """Load trained model and feature names."""
         try:
-            self.model = joblib.load(self.model_path)
-            logger.info(f"✓ Model loaded from {self.model_path}")
+            loaded_model = joblib.load(self.model_path)
+            
+            # Handle both wrapper and underlying model
+            # Check if it's a SafetyScoreModel wrapper or the underlying classifier
+            if hasattr(loaded_model, 'model') and hasattr(loaded_model, 'model_type'):
+                # It's a SafetyScoreModel wrapper - extract underlying model
+                self.model = loaded_model.model
+                logger.info(f"✓ Model loaded from {self.model_path} (extracted from wrapper)")
+            else:
+                # It's the underlying classifier directly
+                self.model = loaded_model
+                logger.info(f"✓ Model loaded from {self.model_path}")
         except Exception as e:
             logger.error(f"Failed to load model: {e}")
             raise
@@ -247,6 +257,18 @@ class RealtimeSafetyCalculator:
             adjusted_score *= 0.85  # 15% penalty
         elif light_cond in [4, 5]:  # Dawn/Dusk
             adjusted_score *= 0.92  # 8% penalty
+        
+        # Speed penalties (critical safety factor)
+        speed = scenario.get('SPEED_REL', 1)
+        if speed >= 5:  # Very high speed
+            adjusted_score *= 0.65  # 35% penalty for very high speed
+        elif speed == 4:  # High speed
+            adjusted_score *= 0.75  # 25% penalty for high speed
+        elif speed == 3:  # Moderate-high speed
+            adjusted_score *= 0.88  # 12% penalty for moderate-high speed
+        elif speed == 2:  # Moderate speed
+            adjusted_score *= 0.95  # 5% penalty for moderate speed
+        # speed == 1 (low speed) gets no penalty
         
         # VRU presence penalty
         vru_present = scenario.get('VRU_PRESENT', 0)
