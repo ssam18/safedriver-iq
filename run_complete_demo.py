@@ -200,14 +200,25 @@ def demo_model_training(vru_crashes, quick=False):
     model_dir.mkdir(parents=True, exist_ok=True)
     
     model_path = model_dir / 'best_safety_model.pkl'
+    config_path = model_dir / 'model_config.txt'
     feature_path = model_dir / 'feature_names.txt'
     
-    joblib.dump(model, model_path)
+    # Save only the underlying model (sklearn/xgboost), not the wrapper
+    # This avoids module import issues when loading
+    joblib.dump(model.model, model_path)
+    
+    # Save model configuration separately
+    with open(config_path, 'w') as f:
+        f.write(f"model_type: {model.model_type}\n")
+        f.write(f"random_state: {model.random_state}\n")
+    
+    # Save feature names
     with open(feature_path, 'w') as f:
         for feat in feature_cols:
             f.write(f"{feat}\n")
     
     print(f"  ✓ Model saved to {model_path}")
+    print(f"  ✓ Config saved to {config_path}")
     print(f"  ✓ Features saved to {feature_path}")
     
     return model, X, y, feature_cols
