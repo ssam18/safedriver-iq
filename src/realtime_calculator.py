@@ -93,7 +93,7 @@ class RealtimeSafetyCalculator:
         X = self._create_feature_vector(scenario)
         
         # Predict safety score
-        proba = self.model.model.predict_proba(X)[0]
+        proba = self.model.predict_proba(X)[0]
         safety_score = proba[0] * 100  # Probability of safe driving
         confidence = max(proba)
         

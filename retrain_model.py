@@ -253,16 +253,25 @@ print("\n10. Saving model...")
 model_dir = Path("results/models")
 model_dir.mkdir(parents=True, exist_ok=True)
 
+# Save the underlying model (sklearn/xgboost model object)
+# This avoids wrapper issues when loading in different contexts
 model_path = model_dir / "best_safety_model.pkl"
-model.save_model(str(model_path))
+import joblib
+joblib.dump(model.model, model_path)  # Save underlying model, not wrapper
+print(f"  ✓ Model saved to: {model_path}")
+
+# Save model type and configuration
+config_path = model_dir / "model_config.txt"
+with open(config_path, 'w') as f:
+    f.write(f"model_type: {model.model_type}\n")
+    f.write(f"random_state: {model.random_state}\n")
+print(f"  ✓ Model config saved to: {config_path}")
 
 # Save feature names
 feature_path = model_dir / "feature_names.txt"
 with open(feature_path, 'w') as f:
     for feat in all_features:
         f.write(f"{feat}\n")
-
-print(f"  ✓ Model saved to: {model_path}")
 print(f"  ✓ Features saved to: {feature_path}")
 
 # 11. Quick Validation
