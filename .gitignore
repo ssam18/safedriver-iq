@@ -56,6 +56,8 @@ Thumbs.db
 # Documentation - exclude all .md except README.md
 *.md
 !README.md
+!DEMO_GUIDE.md
+!PROJECT_SETUP_SUMMARY.md
 
 # Temporary test files
 #check_distributions.py

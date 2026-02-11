@@ -4,10 +4,19 @@
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Status: Agentic AI](https://img.shields.io/badge/Status-Agentic%20AI%20Phase%201%20Complete-success.svg)](AGENTIC_AI_PLAN.md)
 
 ## Project Overview
 
 SafeDriver-IQ transforms crash data into a continuous safety score that tells drivers in real-time how close they are to crash conditions and what specific actions would make them safer, with special focus on protecting vulnerable road users (VRUs).
+
+### 🆕 NEW: Agentic AI Integration (Phase 1 Complete)
+Now features an **autonomous decision-making system** that actively prevents crashes through:
+- Real-time risk assessment and autonomous interventions
+- Continuous learning from driving experiences
+- Multi-modal driver notifications (visual, audio, haptic)
+- Transparent, explainable AI reasoning
+- [Learn more →](AGENTIC_AI_README.md) | [View plan →](AGENTIC_AI_PLAN.md)
 
 ### The Problem
 - **7,500+ pedestrian deaths/year** in the USA (40-year high)
@@ -396,40 +405,6 @@ With 20% adoption, SafeDriver-IQ could prevent:
 
 **Total impact: 1,870+ lives saved annually**
 
-## Project Status
-
-### ✅ Completed
-- [x] Data pipeline (loads 417K+ crash records)
-- [x] VRU crash identification (38K+ crashes)
-- [x] Feature engineering framework (120+ features)
-- [x] Data exploration & visualization
-- [x] Project structure & documentation
-- [x] Comprehensive test suite (65 tests total, 98% model coverage)
-  - 9 data loader tests
-  - 13 feature engineering tests
-  - 15 model tests
-  - 11 preprocessing tests
-  - 5 integration tests
-  - 12 realtime calculator tests (reveals known issues)
-- [x] Continuous integration ready
-
-### ✅ Completed (NEW!)
-- [x] Train inverse safety model (XGBoost/Random Forest)
-- [x] Extract decision boundaries
-- [x] Compute continuous safety scores (0-100)
-- [x] Generate "good driver profile"
-- [x] Real-time safety score calculator
-- [x] Interactive Streamlit dashboard
-- [x] Scenario simulator
-- [x] SHAP analysis for interpretability
-
-### 🎯 Ready to Use
-- [x] Complete training pipeline (notebook + script)
-- [x] Real-time calculator with recommendations
-- [x] Interactive web dashboard (Streamlit)
-- [x] Scenario simulation framework
-- [x] Full SHAP interpretability analysis
-
 ## Project Structure
 
 ```
@@ -491,38 +466,13 @@ safedriver-iq/
 - **[DEMO_GUIDE.md](DEMO_GUIDE.md)** - Comprehensive demonstration guide
 - **[PROJECT_SETUP_SUMMARY.md](PROJECT_SETUP_SUMMARY.md)** - Detailed setup reference
 
-## Development Timeline
-
-### Phase 1: Foundation ✅ (Completed)
-- Data pipeline implementation
-- Feature engineering framework
-- Exploratory data analysis
-
-### Phase 2: Modeling ✅ (COMPLETED!)
-- ✓ Trained crash classifier (RF, XGBoost, GB)
-- ✓ Inverse safety model development
-- ✓ Model validation & tuning
-- ✓ Best model selection automation
-
-### Phase 3: Application ✅ (COMPLETED!)
-- ✓ Real-time safety score calculator
-- ✓ Good driver profile extraction
-- ✓ Interactive Streamlit dashboard
-- ✓ Scenario simulator
-- ✓ SHAP interpretability analysis
-
-### Phase 4: Publication 📋 (In Progress - 4 weeks)
-- [ ] Comprehensive evaluation on hold-out test set
-- [ ] Write methodology paper
-- [ ] Prepare visualizations for publication
-- [ ] Q1 2026 journal submission
 
 ## Citation
 
 ```bibtex
 @article{safedriver-iq-2026,
   title={SafeDriver-IQ: Quantifying Driver Competency Through Inverse Crash Modeling},
-  author={[Your Name]},
+  author={[Samaresh Kumar Singh and Joyjit Roy]},
   journal={[Target Journal]},
   year={2026},
   note={Under development}
@@ -595,10 +545,5 @@ This is a research project. For questions or collaboration:
 
 ## Contact
 
-[Your name and contact information]
-
----
-
-**Ready to demonstrate:** Data pipeline, exploratory insights, feature engineering  
-**In development:** ML models, safety scoring, interactive dashboard  
-**Timeline:** Full prototype in 2-3 weeks
+Samaresh Kumar Singh
+Joyjit Roy
