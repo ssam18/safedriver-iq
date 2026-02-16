@@ -13,6 +13,9 @@ from sklearn.metrics import classification_report, confusion_matrix, roc_auc_sco
 import xgboost as xgb
 import logging
 
+# Import centralized GPU configuration
+from gpu_config import get_gpu_config
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -30,7 +33,7 @@ class SafetyScoreModel:
         Initialize safety score model.
         
         Args:
-            model_type: Type of model ('random_forest', 'xgboost', 'gradient_boost')
+            model_type: Type of model ('random_forest', 'xgboost', 'lightgbm', 'gradient_boost')
             random_state: Random seed for reproducibility
         """
         self.model_type = model_type
@@ -38,6 +41,7 @@ class SafetyScoreModel:
         self.model = None
         self.feature_names = None
         self.feature_importance = None
+        self.gpu_config = get_gpu_config()  # Get GPU configuration
         
         self._initialize_model()
     
@@ -52,13 +56,33 @@ class SafetyScoreModel:
                 n_jobs=-1
             )
         elif self.model_type == "xgboost":
-            self.model = xgb.XGBClassifier(
-                n_estimators=100,
-                max_depth=6,
-                learning_rate=0.1,
-                random_state=self.random_state,
-                n_jobs=-1
-            )
+            # Check if GPU is available
+            try:
+                import subprocess
+                gpu_check = subprocess.run(['nvidia-smi'], capture_output=True)
+                gpu_available = gpu_check.returncode == 0
+            except:
+                gpu_available = False
+            
+            if gpu_available:
+                logger.info("🚀 GPU detected - enabling GPU acceleration for XGBoost")
+                self.model = xgb.XGBClassifier(
+                    n_estimators=100,
+                    max_depth=6,
+                    learning_rate=0.1,
+                    random_state=self.random_state,
+                    tree_method='hist',  # Use hist for XGBoost 3.x
+                    device='cuda'  # Enable GPU (XGBoost 3.x syntax)
+                )
+            else:
+                logger.info("CPU mode for XGBoost")
+                self.model = xgb.XGBClassifier(
+                    n_estimators=100,
+                    max_depth=6,
+                    learning_rate=0.1,
+                    random_state=self.random_state,
+                    n_jobs=-1
+                )
         elif self.model_type == "gradient_boost":
             self.model = GradientBoostingClassifier(
                 n_estimators=100,
