@@ -44,9 +44,6 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Waymo dataset (large binary files - kept locally only)
-waymo/
-
 # Models
 #*.pkl
 #*.joblib
