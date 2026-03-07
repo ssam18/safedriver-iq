@@ -10,7 +10,20 @@
 
 SafeDriver-IQ transforms crash data into a continuous safety score that tells drivers in real-time how close they are to crash conditions and what specific actions would make them safer, with special focus on protecting vulnerable road users (VRUs).
 
-### 🆕 NEW: Agentic AI Integration (Phase 1 Complete)
+### 🆕 NEW: Comprehensive Crash Factor Investigation (Notebook 04)
+A deep-dive multi-dataset investigation combining **CRSS** (417K crashes) and **Waymo Open Motion Dataset** to answer 8 core research questions:
+1. What factors contribute to vehicle crashes?
+2. Which features best predict crash probability?
+3. How to classify driver behavior from crash and good-driving data?
+4. What data is most critical for VRU/pedestrian/cyclist predictions?
+5. What patterns can improve crash prevention model training?
+6. What historical crash trends are present across 2016–2023?
+7. What environmental conditions uniquely elevate crash risk?
+8. How to systematically perform root cause analysis?
+
+**Key addition — Contextual Feature Synthesis:** CRSS captures crash *outcomes* but is silent on contextual preconditions. A new `ContextualFeatureGenerator` synthesises 16 research-calibrated risk dimensions (see [Section 6](#section-6--comprehensive-crash-factor-analysis-beyond-crss-data) in notebook 04) drawn from NHTSA, FHWA-HSM, AAA Foundation, and IIHS sources, enabling richer training and what-if simulation.
+
+### 🤖 Agentic AI Integration (Phase 1 Complete)
 Now features an **autonomous decision-making system** that actively prevents crashes through:
 - Real-time risk assessment and autonomous interventions
 - Continuous learning from driving experiences
@@ -35,20 +48,30 @@ Instead of predicting crashes, we model the **distance from crash** - quantifyin
 | "30% crash risk" | "Safety score: 72/100 → Improve to 85+" |
 | Reactive warnings | Proactive guidance with specific actions |
 | General risk factors | VRU-specific safety models |
+| CRSS-only training | CRSS + Waymo + synthesised contextual features |
 
 ### Novel Contributions:
 1. **Inverse Safety Score Formulation** - Continuous safety metric (0-100) instead of binary crash prediction
-2. **Good Driver Profile Extraction** - First empirical characterization of safe driving from crash data
+2. **Good Driver Profile Extraction** - First empirical characterisation of safe driving from crash data + Waymo behavioural data
 3. **VRU-Specific Safety Modeling** - Dedicated models for pedestrian, cyclist, and work zone encounters
-4. **Real-Time Integration Architecture** - Practical system design for in-vehicle deployment
+4. **Contextual Feature Synthesis** - 16 research-calibrated risk dimensions generated from `ContextualFeatureGenerator` to fill CRSS data gaps
+5. **Multi-Method Feature Consensus** - Random Forest, XGBoost, Permutation Importance, and SHAP combined into a single consensus ranking
+6. **Real-Time Integration Architecture** - Practical system design for in-vehicle deployment
 
 ## Dataset
 
-**CRSS (Crash Report Sampling System)** - NHTSA national crash database
-- **417,335 crash records** (2016-2023)
+**CRSS (Crash Report Sampling System)** — NHTSA national crash database
+- **417,335 crash records** (2016–2023, 8 years)
 - **38,462 VRU crashes** (pedestrians + cyclists)
 - **1,032,571 person records**
-- Files: ACCIDENT.csv, VEHICLE.csv, PERSON.csv, PBTYPE.csv
+- Tables: `ACCIDENT`, `VEHICLE`, `PERSON`, `PBTYPE`, `FACTOR`, `DISTRACT`, `DRIMPAIR`, `WEATHER`, and more
+
+**Waymo Open Motion Dataset (WOMD v1.2)** — Real-world autonomous driving scenarios
+- **6 splits**: training (1,000 shards), training_20s, validation, validation_interactive, testing, testing_interactive
+- **91 timesteps per scenario** at 10 Hz (1 s context + 8 s future horizon)
+- Captures: agent trajectories (vehicles, pedestrians, cyclists), road graph, traffic signals, speed limits
+- Used for: Good driver profiling, near-miss detection, behavioral pattern extraction
+- Stored via **Git LFS** in `waymo/motion_dataset/`
 
 ## System Architecture
 
@@ -56,9 +79,19 @@ Instead of predicting crashes, we model the **distance from crash** - quantifyin
 graph TB
     subgraph "Data Layer"
         A[CRSS Data<br/>2016-2023<br/>417K Crashes] --> B[Data Loader]
+        W[Waymo WOMD<br/>Motion Dataset<br/>TFRecords] --> WL[Waymo Loader]
         B --> C[Feature Engineer<br/>120+ Features]
+        WL --> CF[Contextual Feature<br/>Generator<br/>16 Risk Dimensions]
+        CF --> C
     end
     
+    subgraph "Crash Factor Investigation (NB 04)"
+        C --> I1[Investigation 1–8<br/>8 Research Questions]
+        I1 --> FI[Multi-Method<br/>Feature Consensus<br/>RF+XGB+Perm+SHAP]
+        I1 --> BC[Driver Behavior<br/>Classifier]
+        I1 --> RC[Root Cause<br/>Framework]
+    end
+
     subgraph "ML Pipeline"
         C --> D[Crash Pattern<br/>Analysis]
         C --> E[Synthetic Safe<br/>Samples]
@@ -87,10 +120,12 @@ graph TB
     end
     
     style A fill:#e1f5ff
+    style W fill:#e1f5ff
     style G fill:#90ee90
     style H fill:#ffd700
     style J fill:#ff69b4
     style O fill:#87ceeb
+    style FI fill:#ffe4b5
 ```
 
 ## Project Structure
@@ -100,6 +135,10 @@ graph TB
 │   ├── 2016/                   # Year-wise crash data
 │   ├── 2017/
 │   └── ...
+├── waymo/                      # Waymo Open Motion Dataset (Git LFS)
+│   └── motion_dataset/
+│       ├── datasets_scenario/  # Scenario-format TFRecords
+│       └── tf_example_datasets/# TF Example-format TFRecords
 ├── data/
 │   ├── raw/                    # Downloaded CRSS files
 │   ├── processed/              # Cleaned datasets
@@ -107,16 +146,22 @@ graph TB
 ├── notebooks/
 │   ├── 01_data_exploration.ipynb
 │   ├── 02_train_inverse_model.ipynb
-│   └── 03_shap_analysis.ipynb
+│   ├── 03_shap_analysis.ipynb
+│   └── 04_crash_factor_investigation.ipynb  # 8-investigation deep-dive
 ├── src/
-│   ├── data_loader.py          # CRSS data loading
-│   ├── preprocessing.py        # Data cleaning
-│   ├── feature_engineering.py  # 120+ features
-│   ├── models.py              # Model training/saving
-│   ├── safety_score.py        # Score computation
-│   ├── realtime_calculator.py # Live safety scoring
-│   ├── scenario_simulator.py  # What-if analysis
-│   └── visualization.py       # Plotting utilities
+│   ├── data_loader.py              # CRSS data loading
+│   ├── preprocessing.py            # Data cleaning
+│   ├── feature_engineering.py      # 120+ features
+│   ├── models.py                   # Model training/saving
+│   ├── safety_score.py             # Score computation
+│   ├── realtime_calculator.py      # Live safety scoring
+│   ├── scenario_simulator.py       # What-if analysis
+│   ├── contextual_feature_generator.py  # synthesised contextual features
+│   ├── crash_insights.py           # crash investigation utilities
+│   ├── driver_behavior_classifier.py    # behavior clustering
+│   ├── feature_importance.py       # multi-method feature consensus
+│   ├── waymo_data_loader.py        # Waymo TFRecord loader
+│   └── visualization.py            # Plotting utilities
 ├── tests/
 │   ├── test_data_loader.py
 │   ├── test_feature_engineering.py
@@ -126,6 +171,9 @@ graph TB
 ├── results/
 │   ├── figures/               # Visualizations
 │   ├── tables/                # Analysis results
+│   ├── crash_investigation_feature_importance.csv
+│   ├── crash_investigation_behavior_clusters.csv
+│   ├── crash_investigation_rf_model.pkl
 │   └── models/                # Trained models
 └── app/
     └── streamlit_app.py       # Interactive dashboard
@@ -271,22 +319,34 @@ Expected: 65 tests total (53 pass + 12 realtime tests with 5 expected failures d
 
 ### Phase 1: Data Preparation
 - Load CRSS datasets (2016-2023)
+- Load Waymo Open Motion Dataset (TFRecord parsing via `WaymoDataLoader`)
 - Filter VRU crashes
 - Feature engineering (120+ variables)
 - Create exposure-weighted baseline
 
-### Phase 2: Crash Pattern Analysis
+### Phase 2: Crash Factor Investigation (Notebook 04 — NEW)
+- **Investigation 1** — Primary crash factors (temporal, environmental, VRU interactions)
+- **Investigation 2** — Feature selection via 4-method consensus (RF, XGBoost, Permutation, SHAP)
+- **Investigation 3** — Driver behavior classification (CRSS crash clusters + Waymo good-driver profiling)
+- **Investigation 4** — Critical data for crash/VRU prediction
+- **Investigation 5** — Crash prevention patterns and high-risk combinations
+- **Investigation 6** — Historical year-over-year trends (2016–2023)
+- **Investigation 7** — Environmental uniqueness analysis (rare high-severity conditions)
+- **Investigation 8** — Root cause analysis causal chain framework
+- **Section 6** — Contextual feature synthesis with `ContextualFeatureGenerator` (16 research-calibrated risk factors)
+
+### Phase 3: Crash Pattern Analysis
 - Clustering → Identify crash archetypes
 - Association Rules → Find co-occurring risk factors
 - Feature Importance → Rank risk contributors
 
-### Phase 3: Inverse Safety Model
-- Train crash classifier (Random Forest/XGBoost)
+### Phase 4: Inverse Safety Model
+- Train crash classifier (Random Forest / XGBoost, n_estimators=200)
 - Extract decision boundaries
 - Compute "distance from crash boundary" = Safety Score
-- Profile "good driver" = maximizes safety score
+- Profile "good driver" = maximises safety score (using Waymo behavioural data)
 
-### Phase 4: Validation & Visualization
+### Phase 5: Validation & Visualization
 - Cross-validation metrics
 - SHAP analysis for interpretability
 - Dashboard for results presentation
@@ -295,25 +355,57 @@ Expected: 65 tests total (53 pass + 12 realtime tests with 5 expected failures d
 
 ### 🚀 Full Pipeline Implemented
 
-**1. Model Training**
+**1. Comprehensive Crash Factor Investigation (Notebook 04)**
+- 8 structured investigations using CRSS + Waymo datasets
+- Multi-method feature importance consensus (RF + XGBoost + Permutation + SHAP)
+- Driver behavior classification linking crash patterns to Waymo good-driving profiles
+- Root cause analysis causal chain framework
+- Results saved: `results/crash_investigation_feature_importance.csv`, `results/crash_investigation_rf_model.pkl`
+
+**2. Contextual Feature Generator (`src/contextual_feature_generator.py`)**
+- Synthesises 16 research-backed risk dimensions missing from CRSS
+- Top risk factors by weight:
+
+| Weight | Factor | Source |
+|--------|--------|--------|
+| 0.28 | DUI risk — late night + weekend + bar density | NHTSA |
+| 0.24 | Black ice — temperature < 35°F + precipitation | NHTSA |
+| 0.20 | Active work zone with workers on roadway | NHTSA |
+| 0.18 | Rush hour — dense traffic + tailgating | FHWA-HSM |
+| 0.16 | Aggressive surrounding drivers | AAA Foundation |
+| 0.15 | Narrow lane (<11 ft) on horizontal curve | FHWA-HSM |
+| 0.14 | Driver fatigue — 2–6 AM circadian low | NHTSA |
+| 0.13 | Distracted driving (phone / in-cabin) | NHTSA/IIHS |
+
+- Enables what-if simulation across any risk factor combination
+
+**3. Waymo Data Loader (`src/waymo_data_loader.py`)**
+- Parses Waymo Open Motion Dataset TFRecord format (v1.2)
+- Extracts per-agent state (position, velocity, heading), road graph, traffic signals
+- Computes crash indicators: TTC, min inter-agent distance, near-miss flags
+- Supports all 6 dataset splits (training, validation, testing + interactive variants)
+
+**4. Model Training**
 - Complete inverse safety model training pipeline
-- Three model types: Random Forest, XGBoost, Gradient Boosting
+- Three model types: Random Forest (n_estimators=200, max_depth=10), XGBoost (n_estimators=200, max_depth=6, lr=0.1), Gradient Boosting
+- Automated best model selection based on performance
+- Model saving/loading with feature persistence
 - Automated best model selection based on performance
 - Model saving/loading with feature persistence
 
-**2. Safety Score Calculation**
+**5. Safety Score Calculation**
 - Continuous scores (0-100) instead of binary prediction
 - Five risk levels: Critical, High, Medium, Low, Excellent
 - Confidence intervals for each prediction
 - Distance from crash boundary computation
 
-**3. Real-Time Calculator**
+**6. Real-Time Calculator**
 - Instant safety score for any driving scenario
 - Specific, actionable improvement recommendations
 - Scenario comparison capabilities
 - Batch analysis for multiple scenarios
 
-**4. Interactive Dashboard**
+**7. Interactive Dashboard**
 - Web-based Streamlit application
 - Real-time safety score calculator interface
 - Scenario comparison tools
@@ -321,14 +413,14 @@ Expected: 65 tests total (53 pass + 12 realtime tests with 5 expected failures d
 - Batch analysis with visualizations
 - About page with methodology explanation
 
-**5. Scenario Simulator**
+**8. Scenario Simulator**
 - Factorial scenario generation
 - Monte Carlo random sampling
 - Time-series trip simulation
 - Risk pattern templates (high-risk, low-risk, night, weather, speed, VRU)
 - Comprehensive test suite generator
 
-**6. SHAP Interpretability**
+**9. SHAP Interpretability**
 - Global feature importance analysis
 - Individual prediction explanations
 - Feature interaction detection
@@ -369,6 +461,18 @@ Includes:
 - Environmental factor analysis
 - Injury severity patterns
 
+#### 4. Crash Factor Investigation (NEW)
+```bash
+jupyter notebook notebooks/04_crash_factor_investigation.ipynb
+```
+Includes:
+- 8 structured investigations with CRSS + Waymo data
+- Multi-method feature importance consensus
+- Driver behavior clustering
+- Contextual feature synthesis (Section 6)
+- What-if sensitivity analysis
+- Root cause causal chain framework
+
 ### Key Insights Available
 
 **Crash Patterns:**
@@ -389,11 +493,11 @@ Includes:
 
 ### Demo Scenarios
 
-See [DEMO_GUIDE.md](DEMO_GUIDE.md) for:
-- Step-by-step demonstration flow
-- Talking points for presentations
-- Example scenarios with expected outputs
-- Common questions & answers
+Key notebooks for demonstrations:
+- **[01_data_exploration.ipynb](notebooks/01_data_exploration.ipynb)** — Data quality, VRU trends, temporal patterns
+- **[02_train_inverse_model.ipynb](notebooks/02_train_inverse_model.ipynb)** — Full inverse safety model training
+- **[03_shap_analysis.ipynb](notebooks/03_shap_analysis.ipynb)** — SHAP interpretability deep-dive
+- **[04_crash_factor_investigation.ipynb](notebooks/04_crash_factor_investigation.ipynb)** — 8-investigation crash factor analysis with Waymo integration
 
 ## Expected Impact
 
@@ -412,6 +516,11 @@ safedriver-iq/
 ├── CRSS_Data/              # Downloaded CRSS data (417K+ crashes)
 │   ├── 2016/ ... 2023/     # Raw CSV files by year
 │
+├── waymo/                  # Waymo Open Motion Dataset (Git LFS, ~5 GB)
+│   └── motion_dataset/
+│       ├── datasets_scenario/
+│       └── tf_example_datasets/
+│
 ├── src/                    # Core Python modules
 │   ├── data_loader.py      # Loads & combines CRSS files
 │   ├── preprocessing.py    # Data cleaning & quality checks
@@ -419,15 +528,21 @@ safedriver-iq/
 │   ├── models.py           # ML models (RF, XGBoost, GBM)
 │   ├── safety_score.py     # Safety score calculator
 │   ├── visualization.py    # Plotting tools
-│   ├── realtime_calculator.py  # Real-time safety calculator ✨NEW
-│   └── scenario_simulator.py   # Scenario simulation ✨NEW
+│   ├── realtime_calculator.py  # Real-time safety calculator ✨
+│   ├── scenario_simulator.py   # Scenario simulation ✨
+│   ├── contextual_feature_generator.py  # Synthesised risk features ✨NEW
+│   ├── crash_insights.py        # Crash investigation utilities ✨NEW
+│   ├── driver_behavior_classifier.py  # Behavior clustering ✨NEW
+│   ├── feature_importance.py    # Multi-method consensus ✨NEW
+│   └── waymo_data_loader.py     # Waymo TFRecord parser ✨NEW
 │
 ├── notebooks/              # Jupyter notebooks
-│   ├── 01_data_exploration.ipynb   # Data analysis & insights
-│   ├── 02_train_inverse_model.ipynb # Model training pipeline ✨NEW
-│   └── 03_shap_analysis.ipynb      # SHAP interpretability ✨NEW
+│   ├── 01_data_exploration.ipynb        # Data analysis & insights
+│   ├── 02_train_inverse_model.ipynb     # Model training pipeline ✨
+│   ├── 03_shap_analysis.ipynb           # SHAP interpretability ✨
+│   └── 04_crash_factor_investigation.ipynb  # 8-investigation deep-dive ✨NEW
 │
-├── app/                    # Web application ✨NEW
+├── app/                    # Web application ✨
 │   └── streamlit_app.py    # Interactive dashboard
 │
 ├── data/                   # Processed data
@@ -436,7 +551,10 @@ safedriver-iq/
 │
 ├── results/                # Output files
 │   ├── figures/            # Visualizations
-│   └── tables/             # Summary statistics
+│   ├── tables/             # Summary statistics
+│   ├── crash_investigation_feature_importance.csv  ✨NEW
+│   ├── crash_investigation_behavior_clusters.csv   ✨NEW
+│   └── crash_investigation_rf_model.pkl            ✨NEW
 │
 ├── tests/                  # Unit tests
 │   ├── conftest.py         # Pytest fixtures
@@ -445,9 +563,8 @@ safedriver-iq/
 │   ├── test_models.py      # Model tests (15 tests)
 │   ├── test_preprocessing.py  # Preprocessing tests (11 tests)
 │   ├── test_integration.py # Integration tests (5 tests)
-│   ├── test_realtime_calculator.py  # Realtime calculator tests (12 tests) ✨NEW
+│   ├── test_realtime_calculator.py  # Realtime calculator tests (12 tests) ✨
 │   └── README.md           # Test documentation
-├── app/                    # Streamlit dashboard (future)
 │
 ├── demo_quick.py           # Quick data demonstration
 ├── run_complete_demo.py    # Complete pipeline demo ✨NEW
@@ -462,9 +579,9 @@ safedriver-iq/
 
 ## Documentation
 
-- **[README.md](README.md)** - Project overview & setup (this file)
-- **[DEMO_GUIDE.md](DEMO_GUIDE.md)** - Comprehensive demonstration guide
-- **[PROJECT_SETUP_SUMMARY.md](PROJECT_SETUP_SUMMARY.md)** - Detailed setup reference
+- **[README.md](README.md)** — Project overview & setup (this file)
+- **[PROJECT_SETUP_SUMMARY.md](PROJECT_SETUP_SUMMARY.md)** — Detailed setup reference
+- **[notebooks/04_crash_factor_investigation.ipynb](notebooks/04_crash_factor_investigation.ipynb)** — Comprehensive crash factor investigation
 
 
 ## Citation
@@ -529,7 +646,7 @@ Until then, the model is best used for demonstrating weather/lighting/temporal r
 ## Contributing
 
 This is a research project. For questions or collaboration:
-- Review [DEMO_GUIDE.md](DEMO_GUIDE.md) for project overview
+- Review [notebooks/04_crash_factor_investigation.ipynb](notebooks/04_crash_factor_investigation.ipynb) for the latest investigation results
 - Run `demo_quick.py` to see current capabilities
 - Check issues for planned features
 
