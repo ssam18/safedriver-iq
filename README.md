@@ -40,6 +40,57 @@ Now features an **autonomous decision-making system** that actively prevents cra
 ### Our Solution
 Instead of predicting crashes, we model the **distance from crash** - quantifying how "safe" a driving scenario is by measuring its statistical distance from crash-producing conditions.
 
+## 📄 Research Publication
+
+This repository serves as the **reference implementation and experimental foundation** for the following research paper:
+
+### 🧠 Paper Title
+**Real-Time Driver Safety Scoring Through Inverse Crash Probability Modeling**
+
+### 🔗 Read the Paper
+👉 https://gist.science/paper/2603.14841
+
+### 📌 Relationship to This Project
+The SafeDriver-IQ system was **designed, implemented, and validated first**, and the insights, models, and experimental findings from this project directly led to the research publication.
+
+In other words:
+- ✅ This repository = **working system + experiments**
+- ✅ The paper = **formalization of methodology, results, and contributions**
+
+### 🚀 What the Paper Formalizes
+The research paper builds on this project and formally introduces:
+
+- **Inverse Crash Probability Modeling** → foundation of the safety score  
+- **Continuous Driver Safety Scoring (0–100)** instead of binary crash prediction  
+- **Distance-from-crash formulation** using learned decision boundaries  
+- **Integration of crash data (CRSS) + behavioral data (Waymo)**  
+- **Explainable safety feedback mechanisms for real-time systems**  
+
+### 🔬 How This Repo Maps to the Paper
+
+| Research Concept | Implementation in This Repo |
+|----------------|---------------------------|
+| Inverse crash modeling | `src/safety_score.py` |
+| Feature engineering (120+) | `src/feature_engineering.py` |
+| Contextual risk synthesis | `src/contextual_feature_generator.py` |
+| Model training (RF/XGBoost) | `src/models.py` |
+| Behavioral insights | `src/driver_behavior_classifier.py` |
+| Explainability (SHAP) | `notebooks/03_shap_analysis.ipynb` |
+| Real-time scoring system | `src/realtime_calculator.py` |
+
+### 🧾 Authors
+- Joyjit Roy (Corresponding Author)  
+- Samaresh Kumar Singh (Co-Author)
+
+### 📚 Citation
+```bibtex
+@article{inverse_crash_modeling_2026,
+  title={Real-Time Driver Safety Scoring Through Inverse Crash Probability Modeling},
+  author={Joyjit Roy and Samaresh Kumar Singh},
+  year={2026},
+  url={https://gist.science/paper/2603.14841}
+}
+
 ## Key Innovations
 
 | Traditional Approach | SafeDriver-IQ (Novel) |
@@ -582,19 +633,6 @@ safedriver-iq/
 - **[README.md](README.md)** — Project overview & setup (this file)
 - **[PROJECT_SETUP_SUMMARY.md](PROJECT_SETUP_SUMMARY.md)** — Detailed setup reference
 - **[notebooks/04_crash_factor_investigation.ipynb](notebooks/04_crash_factor_investigation.ipynb)** — Comprehensive crash factor investigation
-
-
-## Citation
-
-```bibtex
-@article{safedriver-iq-2026,
-  title={SafeDriver-IQ: Quantifying Driver Competency Through Inverse Crash Modeling},
-  author={[Samaresh Kumar Singh and Joyjit Roy]},
-  journal={[Target Journal]},
-  year={2026},
-  note={Under development}
-}
-```
 
 ## Known Issues & Limitations
 
