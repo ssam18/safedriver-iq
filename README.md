@@ -90,7 +90,7 @@ The research paper builds on this project and formally introduces:
   year={2026},
   url={https://gist.science/paper/2603.14841}
 }
-
+```
 ## Key Innovations
 
 | Traditional Approach | SafeDriver-IQ (Novel) |
