@@ -698,7 +698,7 @@ This is a research project. For questions or collaboration:
 - **SafeDriver-IQ** novel methodology development
 - Python scientific computing community (pandas, scikit-learn, etc.)
 
-## Contact
+## Contributors
 
-Samaresh Kumar Singh &
-Joyjit Roy
+- Samaresh Kumar Singh &
+- Joyjit Roy
