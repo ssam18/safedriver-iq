@@ -700,5 +700,6 @@ This is a research project. For questions or collaboration:
 
 ## Contributors
 
-- Samaresh Kumar Singh &
-- Joyjit Roy
+Samaresh Kumar Singh, and
+Joyjit Roy
+
