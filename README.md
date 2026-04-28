@@ -700,5 +700,5 @@ This is a research project. For questions or collaboration:
 
 ## Contact
 
-Samaresh Kumar Singh &
+Samaresh Kumar Singh, and
 Joyjit Roy
