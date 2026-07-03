@@ -50,6 +50,9 @@ This repository serves as the **reference implementation and experimental founda
 ### 🔗 Read the Paper
 👉 https://gist.science/paper/2603.14841
 
+### 🆕 ASCE2027 Follow-Up
+The repository now also includes the validation artifacts for the follow-up ASCE2027 paper, *"An Agentic Multi-Model Architecture for Proactive Safety in Autonomous Transportation Systems"*, in the [`asce2027/`](asce2027/) directory. It contains scripts, datasets, and figures used to validate PRISM across nuScenes, Argoverse 2, and Waymo WOMD.
+
 ### 📌 Relationship to This Project
 The SafeDriver-IQ system was **designed, implemented, and validated first**, and the insights, models, and experimental findings from this project directly led to the research publication.
 
@@ -182,6 +185,10 @@ graph TB
 ## Project Structure
 
 ```
+├── asce2027/                   # ASCE2027 PRISM validation artifacts
+│   ├── scripts/                # Analysis scripts (AV2, Waymo, nuScenes)
+│   ├── data/                   # Validation results (CSV/JSON)
+│   └── figures/                # Paper figures
 ├── CRSS_Data/                  # National crash database (2016-2023)
 │   ├── 2016/                   # Year-wise crash data
 │   ├── 2017/
@@ -401,6 +408,16 @@ Expected: 65 tests total (53 pass + 12 realtime tests with 5 expected failures d
 - Cross-validation metrics
 - SHAP analysis for interpretability
 - Dashboard for results presentation
+
+## ASCE2027 Validation Artifacts
+
+The `asce2027/` folder contains the reproducibility bundle for the ASCE2027 conference paper:
+
+- **Scripts**: `compute_stats.py`, `check_tier_mapping.py`, `find_thresholds.py`, `sensitivity_final.py`, `av2_and_shap_outputs.py`, `fig2_score_distribution_final.py`, `generate_paper_outputs.py`, `waymo_validation.py`, `waymo_validation_run.py`
+- **Data**: `av2_validation_1000.csv`, `av2_validation_by_city.csv`, `av2_scenario_summary.csv`, `scenario_summary.csv`, `waymo_validation_results.json`, `waymo_scenario_summary.csv`, `fig2_score_distribution_data.csv`
+- **Figures**: Score distribution, tier distribution, ablation, latency, near-miss, SHAP, and VRU proximity plots
+
+These artifacts support the paper's results: mean safety score 68/100, 77.6% advisory, 3.8% near-miss rate, and ~11% escalation to intervention/emergency.
 
 ## New Features (Just Completed! 🎉)
 
