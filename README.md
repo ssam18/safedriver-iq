@@ -42,16 +42,19 @@ Instead of predicting crashes, we model the **distance from crash** - quantifyin
 
 ## 📄 Research Publication
 
-This repository serves as the **reference implementation and experimental foundation** for the following research paper:
+This repository serves as the **reference implementation and experimental foundation** for the following research:
 
-### 🧠 Paper Title
-**Real-Time Driver Safety Scoring Through Inverse Crash Probability Modeling**
+### Phase 1: SafeDriver-IQ
 
-### 🔗 Read the Paper
-👉 https://arxiv.org/abs/2603.14841
+**Paper Title:** *Real-Time Driver Safety Scoring Through Inverse Crash Probability Modeling*
 
-### 🆕 ASCE2027 Follow-Up
-The repository now also includes the validation artifacts for the follow-up ASCE2027 paper, *"An Agentic Multi-Model Architecture for Proactive Safety in Autonomous Transportation Systems"*, in the [`asce2027/`](asce2027/) directory. It contains scripts, datasets, and figures used to validate PRISM across nuScenes, Argoverse 2, and Waymo WOMD.
+This research was developed in collaboration with the **American Center for Mobility (ACM)**, a federally designated proving ground for connected and automated vehicle technology. ACM is featuring the work through its publication channels, reflecting growing industry interest in proactive safety intelligence. The paper was presented at the **2026 IEEE International Conference on Electro/Information Technology (EIT)** in La Crosse, Wisconsin, and at the **IEEE CTSoc Technical Talks Webinar**, and is forthcoming in **IEEE Xplore**.
+
+**Read the paper:** https://arxiv.org/abs/2603.14841
+
+### Phase 2: PRISM
+
+Phase 2 of this research, an agentic multi-model architecture for proactive safety intervention in autonomous transportation, has been accepted for presentation at the **American Society of Civil Engineers (ASCE) 2027** conference. Validation artifacts are in the [`asce2027/`](asce2027/) directory.
 
 ### 📌 Relationship to This Project
 The SafeDriver-IQ system was **designed, implemented, and validated first**, and the insights, models, and experimental findings from this project directly led to the research publication.
