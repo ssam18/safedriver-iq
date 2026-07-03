@@ -641,10 +641,3 @@ This is a research project. For questions or collaboration:
 - **SafeDriver-IQ** novel methodology development
 - Python scientific computing community (pandas, scikit-learn, etc.)
 
-## Contributors
-
-- Joyjit Roy (Independent Researcher, IEEE Sr. Member)
-- Samaresh Kumar Singh (Independent Researcher, IEEE Sr. Member)
-- Sushanta Das, Ph.D. (VP of R&D, American Center for Mobility)
-- Mojtaba Bahramgiri (Michigan Technological University)
-
