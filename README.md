@@ -129,59 +129,6 @@ The research paper builds on this project and formally introduces:
 
 ## System Architecture
 
-```mermaid
-graph TB
-    subgraph "Data Layer"
-        A[CRSS Data<br/>2016-2023<br/>417K Crashes] --> B[Data Loader]
-        W[Waymo WOMD<br/>Motion Dataset<br/>TFRecords] --> WL[Waymo Loader]
-        B --> C[Feature Engineer<br/>120+ Features]
-        WL --> CF[Contextual Feature<br/>Generator<br/>16 Risk Dimensions]
-        CF --> C
-    end
-    
-    subgraph "Crash Factor Investigation (NB 04)"
-        C --> I1[Investigation 1–8<br/>8 Research Questions]
-        I1 --> FI[Multi-Method<br/>Feature Consensus<br/>RF+XGB+Perm+SHAP]
-        I1 --> BC[Driver Behavior<br/>Classifier]
-        I1 --> RC[Root Cause<br/>Framework]
-    end
-
-    subgraph "ML Pipeline"
-        C --> D[Crash Pattern<br/>Analysis]
-        C --> E[Synthetic Safe<br/>Samples]
-        D --> F[Model Training<br/>RF/XGBoost/GB]
-        E --> F
-        F --> G[Best Model<br/>Selection]
-    end
-    
-    subgraph "Inverse Modeling"
-        G --> H[Safety Score<br/>Computation<br/>0-100]
-        H --> I[Good Driver<br/>Profile<br/>Extraction]
-    end
-    
-    subgraph "Real-Time System"
-        I --> J[Real-Time<br/>Calculator]
-        J --> K{Safety Level}
-        K -->|Critical 0-40| L[Emergency<br/>Warnings]
-        K -->|Medium 40-70| M[Improvement<br/>Suggestions]
-        K -->|Excellent 70+| N[Positive<br/>Feedback]
-    end
-    
-    subgraph "Applications"
-        J --> O[Streamlit<br/>Dashboard]
-        J --> P[Scenario<br/>Simulator]
-        I --> Q[SHAP Analysis<br/>Interpretability]
-    end
-    
-    style A fill:#e1f5ff
-    style W fill:#e1f5ff
-    style G fill:#90ee90
-    style H fill:#ffd700
-    style J fill:#ff69b4
-    style O fill:#87ceeb
-    style FI fill:#ffe4b5
-```
-
 ### Architecture Diagrams
 
 #### SafeDriver-IQ (Phase 1) Architecture
