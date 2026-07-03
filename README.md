@@ -105,9 +105,10 @@ The research paper builds on this project and formally introduces:
 
 | Author | Affiliation | Role | Contribution |
 |---|---|---|---|
-| Joyjit Roy | Independent Researcher, IEEE Senior Member, Austin TX | Corresponding Author | Phase 1 & 2 architecture, modeling, validation |
-| Samaresh Kumar Singh | Independent Researcher, IEEE Senior Member, Leander TX | Co-Author | Phase 1 & 2 system design, experimentation |
-| Sushanta Das, Ph.D. | American Center for Mobility, Ypsilanti MI | Co-Author | Phase 1 & 2 domain guidance, ACM collaboration |
+| Joyjit Roy | Independent Researcher, IEEE Sr. Member | Corresponding Author | Phase 1 & 2 architecture, modeling, validation |
+| Samaresh Kumar Singh | Independent Researcher, IEEE Sr. Member | Co-Author | Phase 1 & 2 system design, experimentation |
+| Sushanta Das, Ph.D. | VP of R&D, American Center for Mobility (ACM) | Co-Author | Phase 1 & 2 domain guidance, ACM collaboration |
+| Mojtaba Bahramgiri | Michigan Technological University (MTU) | Contributor | Validation, experimentation |
 
 ### 📚 Citation
 ```bibtex
@@ -642,8 +643,8 @@ This is a research project. For questions or collaboration:
 
 ## Contributors
 
-- Joyjit Roy
-- Samaresh Kumar Singh
-- Sushanta Das, Ph.D.
-- Mojtama
+- Joyjit Roy (Independent Researcher, IEEE Sr. Member)
+- Samaresh Kumar Singh (Independent Researcher, IEEE Sr. Member)
+- Sushanta Das, Ph.D. (VP of R&D, American Center for Mobility)
+- Mojtaba Bahramgiri (Michigan Technological University)
 
