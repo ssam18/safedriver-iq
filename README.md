@@ -52,9 +52,26 @@ This research was developed in collaboration with the **American Center for Mobi
 
 **Read the paper:** https://arxiv.org/abs/2603.14841
 
+### Key Results (Phase 1)
+
+- **87%** of crashes involve **2+ co-occurring risk factors**
+- **4.5x** non-linear risk compounding over baseline
+- Model performance: **AP = 0.891**, **precision = 0.941**, **recall = 0.480**
+- SHAP-ablation correlation: **r = 0.94**
+- Estimated **22.7% crash reduction** with adoption
+
 ### Phase 2: PRISM
 
 Phase 2 of this research, an agentic multi-model architecture for proactive safety intervention in autonomous transportation, has been accepted for presentation at the **American Society of Civil Engineers (ASCE) 2027** conference. Validation artifacts are in the [`asce2027/`](asce2027/) directory.
+
+### Key Results (Phase 2)
+
+- **1,296 scenarios** validated across nuScenes (10), Argoverse 2 (1,000), and Waymo WOMD (286)
+- **Mean safety score: 68.0/100**
+- **77.6%** of scenarios classified as **advisory**
+- **3.8% near-miss rate**
+- **~11%** escalated to **intervention/emergency**
+- Cross-dataset calibration without retraining
 
 ### 📌 Relationship to This Project
 The SafeDriver-IQ system was **designed, implemented, and validated first**, and the insights, models, and experimental findings from this project directly led to the research publication.
@@ -85,8 +102,12 @@ The research paper builds on this project and formally introduces:
 | Real-time scoring system | `src/realtime_calculator.py` |
 
 ### 🧾 Authors
-- Joyjit Roy (Corresponding Author)  
-- Samaresh Kumar Singh (Co-Author)
+
+| Author | Affiliation | Role | Contribution |
+|---|---|---|---|
+| Joyjit Roy | Independent Researcher, IEEE Senior Member, Austin TX | Corresponding Author | Phase 1 & 2 architecture, modeling, validation |
+| Samaresh Kumar Singh | Independent Researcher, IEEE Senior Member, Leander TX | Co-Author | Phase 1 & 2 system design, experimentation |
+| Sushanta Das, Ph.D. | American Center for Mobility, Ypsilanti MI | Co-Author | Phase 1 & 2 domain guidance, ACM collaboration |
 
 ### 📚 Citation
 ```bibtex
@@ -614,12 +635,14 @@ This is a research project. For questions or collaboration:
 
 ## Acknowledgments
 
+- **American Center for Mobility (ACM)** for collaboration and domain guidance as a federally designated CAV proving ground
 - **NHTSA** for CRSS data availability
 - **SafeDriver-IQ** novel methodology development
 - Python scientific computing community (pandas, scikit-learn, etc.)
 
 ## Contributors
 
-Samaresh Kumar Singh, and
-Joyjit Roy
+- Joyjit Roy
+- Samaresh Kumar Singh
+- Sushanta Das, Ph.D.
 
