@@ -97,6 +97,23 @@ The research paper builds on this project and formally introduces:
   note    = {Submitted to IEEE EIT 2026, University of Wisconsin-La Crosse}
 }
 ```
+
+### 📢 Research Flyers
+
+Visual one-page summaries for each phase of the work.
+
+#### Phase 1: SafeDriver-IQ
+
+![SafeDriver-IQ Phase 1 Flyer](docs/flyers/safedriver_iq_phase1_flyer.png)
+
+Phase 1 introduces inverse crash probability modeling: a continuous 0–100 safety score derived from NHTSA CRSS crash data and Waymo driving behavior, demonstrating that 87% of crashes involve two or more co-occurring risk factors.
+
+#### Phase 2: PRISM (ASCE2027)
+
+![PRISM Phase 2 Flyer](docs/flyers/prism_phase2_flyer.png)
+
+Phase 2 extends the foundation into an agentic multi-model architecture with environmental, trajectory, and VRU risk models fused by a DQN agent. PRISM was validated across nuScenes, Argoverse 2, and Waymo WOMD, achieving a mean safety score of 68/100 with 77.6% of scenarios classified as advisory.
+
 ## Key Innovations
 
 | Traditional Approach | SafeDriver-IQ (Novel) |
@@ -171,7 +188,8 @@ PRISM (Proactive Risk Intelligence and Safety Management) extends SafeDriver-IQ 
 │   ├── data/                   # Validation results (CSV/JSON)
 │   └── figures/                # Paper figures
 ├── docs/
-│   └── images/                 # Architecture diagrams (SafeDriver-IQ + PRISM)
+│   ├── images/                 # Architecture diagrams (SafeDriver-IQ + PRISM)
+│   └── flyers/                 # Research flyers (Phase 1 + Phase 2)
 ├── CRSS_Data/                  # National crash database (2016-2023)
 │   ├── 2016/                   # Year-wise crash data
 │   ├── 2017/
