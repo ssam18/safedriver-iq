@@ -48,7 +48,7 @@ This repository serves as the **reference implementation and experimental founda
 **Real-Time Driver Safety Scoring Through Inverse Crash Probability Modeling**
 
 ### 🔗 Read the Paper
-👉 https://gist.science/paper/2603.14841
+👉 https://arxiv.org/abs/2603.14841
 
 ### 🆕 ASCE2027 Follow-Up
 The repository now also includes the validation artifacts for the follow-up ASCE2027 paper, *"An Agentic Multi-Model Architecture for Proactive Safety in Autonomous Transportation Systems"*, in the [`asce2027/`](asce2027/) directory. It contains scripts, datasets, and figures used to validate PRISM across nuScenes, Argoverse 2, and Waymo WOMD.
@@ -87,11 +87,14 @@ The research paper builds on this project and formally introduces:
 
 ### 📚 Citation
 ```bibtex
-@article{inverse_crash_modeling_2026,
-  title={Real-Time Driver Safety Scoring Through Inverse Crash Probability Modeling},
-  author={Joyjit Roy and Samaresh Kumar Singh},
-  year={2026},
-  url={https://gist.science/paper/2603.14841}
+@article{safedriveriq,
+  author  = {Roy, Joyjit and Singh, Samaresh Kumar and Das, Sushanta},
+  title   = {Real-Time Driver Safety Scoring Through Inverse Crash Probability Modeling},
+  journal = {arXiv preprint arXiv:2603.14841},
+  year    = {2026},
+  doi     = {10.48550/arXiv.2603.14841},
+  url     = {https://arxiv.org/abs/2603.14841},
+  note    = {Submitted to IEEE EIT 2026, University of Wisconsin-La Crosse}
 }
 ```
 ## Key Innovations
@@ -221,20 +224,26 @@ PRISM (Proactive Risk Intelligence and Safety Management) extends SafeDriver-IQ 
 # Navigate to project directory
 cd safedriver-iq
 
-# Recreate virtual environment (if needed or if broken)
-rm -rf venv && python3 -m venv venv
+# Create virtual environment
+python -m venv venv
 
-# Activate virtual environment and install dependencies
-source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt
+# Activate (Windows)
+venv\Scripts\activate
+# Activate (Linux/Mac)
+# source venv/bin/activate
+
+# Install dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
 
 # Verify data loading (shows 417K+ crashes)
-python3 test_data_loader.py
+python test_data_loader.py
 
 # Run COMPLETE demonstration (trains model + all features)
-python3 run_complete_demo.py --quick
+python run_complete_demo.py --quick
 
 # Or run quick data demo
-python3 demo_quick.py
+python demo_quick.py
 
 # Or explore interactively
 jupyter notebook notebooks/01_data_exploration.ipynb
@@ -261,10 +270,12 @@ cd safedriver-iq
 
 ### Step 2: Create Virtual Environment
 ```bash
-python3 -m venv venv
-source venv/bin/activate  # Linux/Mac
-# OR
-venv\Scripts\activate     # Windows
+python -m venv venv
+
+# Activate (Windows)
+venv\Scripts\activate
+# Activate (Linux/Mac)
+# source venv/bin/activate
 ```
 
 ### Step 3: Install Dependencies
@@ -300,8 +311,8 @@ Should show successful loading of 417K+ crash records.
 ### Step 6: Run Tests (Optional)
 ```bash
 # Activate virtual environment (REQUIRED before running tests)
-source venv/bin/activate  # Linux/Mac
-# venv\Scripts\activate  # Windows
+venv\Scripts\activate     # Windows
+# source venv/bin/activate  # Linux/Mac
 
 # Install test dependencies
 pip install -r requirements-test.txt
@@ -548,74 +559,6 @@ With 20% adoption, SafeDriver-IQ could prevent:
 
 **Total impact: 1,870+ lives saved annually**
 
-## Project Structure
-
-```
-safedriver-iq/
-├── CRSS_Data/              # Downloaded CRSS data (417K+ crashes)
-│   ├── 2016/ ... 2023/     # Raw CSV files by year
-│
-├── waymo/                  # Waymo Open Motion Dataset (Git LFS, ~5 GB)
-│   └── motion_dataset/
-│       ├── datasets_scenario/
-│       └── tf_example_datasets/
-│
-├── src/                    # Core Python modules
-│   ├── data_loader.py      # Loads & combines CRSS files
-│   ├── preprocessing.py    # Data cleaning & quality checks
-│   ├── feature_engineering.py  # Creates 120+ safety features
-│   ├── models.py           # ML models (RF, XGBoost, GBM)
-│   ├── safety_score.py     # Safety score calculator
-│   ├── visualization.py    # Plotting tools
-│   ├── realtime_calculator.py  # Real-time safety calculator ✨
-│   ├── scenario_simulator.py   # Scenario simulation ✨
-│   ├── contextual_feature_generator.py  # Synthesised risk features ✨NEW
-│   ├── crash_insights.py        # Crash investigation utilities ✨NEW
-│   ├── driver_behavior_classifier.py  # Behavior clustering ✨NEW
-│   ├── feature_importance.py    # Multi-method consensus ✨NEW
-│   └── waymo_data_loader.py     # Waymo TFRecord parser ✨NEW
-│
-├── notebooks/              # Jupyter notebooks
-│   ├── 01_data_exploration.ipynb        # Data analysis & insights
-│   ├── 02_train_inverse_model.ipynb     # Model training pipeline ✨
-│   ├── 03_shap_analysis.ipynb           # SHAP interpretability ✨
-│   └── 04_crash_factor_investigation.ipynb  # 8-investigation deep-dive ✨NEW
-│
-├── app/                    # Web application ✨
-│   └── streamlit_app.py    # Interactive dashboard
-│
-├── data/                   # Processed data
-│   ├── processed/          # Cleaned datasets
-│   └── external/           # Exposure data (VMT, etc.)
-│
-├── results/                # Output files
-│   ├── figures/            # Visualizations
-│   ├── tables/             # Summary statistics
-│   ├── crash_investigation_feature_importance.csv  ✨NEW
-│   ├── crash_investigation_behavior_clusters.csv   ✨NEW
-│   └── crash_investigation_rf_model.pkl            ✨NEW
-│
-├── tests/                  # Unit tests
-│   ├── conftest.py         # Pytest fixtures
-│   ├── test_data_loader.py # Data loading tests (9 tests)
-│   ├── test_feature_engineering.py  # Feature tests (13 tests)
-│   ├── test_models.py      # Model tests (15 tests)
-│   ├── test_preprocessing.py  # Preprocessing tests (11 tests)
-│   ├── test_integration.py # Integration tests (5 tests)
-│   ├── test_realtime_calculator.py  # Realtime calculator tests (12 tests) ✨
-│   └── README.md           # Test documentation
-│
-├── demo_quick.py           # Quick data demonstration
-├── run_complete_demo.py    # Complete pipeline demo ✨NEW
-├── test_data_loader.py     # Data loading verification
-├── start.sh                # Quick start helper script
-│
-├── README.md               # This file
-├── DEMO_GUIDE.md           # Detailed demonstration guide
-├── requirements.txt        # Python dependencies
-└── setup.py                # Package installation
-```
-
 ## Documentation
 
 - **[README.md](README.md)** — Project overview & setup (this file)
@@ -624,50 +567,9 @@ safedriver-iq/
 
 ## Known Issues & Limitations
 
-### Model Feature Sensitivity (Critical)
+The current trained model does not respond meaningfully to changes in **road condition**, **VRU presence**, or **speed relative to limit**. This is a fundamental limitation of training on crash-only data: the model never learned what "truly safe" driving looks like. It remains useful for weather, lighting, and temporal risk patterns. For test evidence, run `pytest tests/test_realtime_calculator.py -v --tb=short`.
 
-**Issue**: The current trained model does NOT respond meaningfully to changes in:
-- Road Condition (Dry/Wet/Snow/Ice)  
-- VRU Presence (Pedestrians/Cyclists)
-- Speed Relative to Limit
-
-**Root Cause**: The model was trained exclusively on crash data where:
-1. **VRU features have low importance**: Almost all crashes in the dataset involve some risk factors, so VRU presence doesn't strongly distinguish "safe" from "unsafe" scenarios - it distinguishes types of crashes, not safety levels
-2. **Road condition data may be missing**: CRSS crash reports may not consistently capture road surface conditions
-3. **Speed data limitations**: Relative speed information may not be consistently available in crash reports
-
-**Technical Details**: 
-- VRU features (`total_vru`, `pedestrian_count`) ARE correctly passed to the model
-- The model learned from 417K crashes that weather/lighting/time are stronger predictors than VRU presence
-- Training on crash-only data creates bias - model never learned what "truly safe" (non-crash) driving looks like
-
-**Test Evidence** (from `tests/test_realtime_calculator.py`):
-```bash
-# Run comprehensive feature tests
-source venv/bin/activate  
-pytest tests/test_realtime_calculator.py -v --tb=short -s
-```
-
-**Impact**: 
-- Streamlit dashboard shows same safety score for road/VRU/speed changes
-- Only weather, lighting, and time of day significantly affect predictions  
-- Model is useful for environmental risk assessment but limited for surface/VRU-specific guidance
-
-**Status**: Fundamental limitation of training on crash-only data - requires different training approach
-
-**Workaround**: Current model demonstrates:
-- Temporal risk patterns (time of day, day of week, seasonality)
-- Weather-based risk assessment (clear vs adverse conditions)
-- Lighting condition impact (day vs night/dark)
-- Combined scenario analysis (multiple risk factors)
-
-**Proper Fix Required**: 
-1. **Add non-crash "safe driving" data**: Sample from normal driving data (dashcam, telematics) to establish true baseline
-2. **Feature importance analysis**: Retrain with explicit focus on VRU/road/speed features
-3. **Alternative modeling**: Consider separate models for different risk types (environmental vs surface vs VRU)
-4. **Data augmentation**: Create synthetic "safe" scenarios with varying VRU/road conditions
-
-Until then, the model is best used for demonstrating weather/lighting/temporal risk factors.
+The PRISM architecture (Phase 2) addresses this by adding separate trajectory-kinematic and VRU-interaction models, plus a DQN fusion agent. Validation results are in the `asce2027/` directory.
 
 ## Contributing
 
