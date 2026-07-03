@@ -130,6 +130,15 @@ The research paper builds on this project and formally introduces:
 - Used for: Good driver profiling, near-miss detection, behavioral pattern extraction
 - Stored via **Git LFS** in `waymo/motion_dataset/`
 
+### Dataset Summary by Paper
+
+| Paper | Dataset | Size | Type | Purpose |
+|---|---|---|---|---|
+| Phase 1 (EIT2026) | NHTSA CRSS 2016–2023 | 417,335 crash records | Historical crash outcomes | Train inverse crash probability model |
+| Phase 2 (ASCE2027) | nuScenes mini | 10 scenarios | Autonomous driving scenes | Validate PRISM across diverse urban environments |
+| Phase 2 (ASCE2027) | Argoverse 2 | 1,000 scenarios | Autonomous driving scenes | Validate PRISM across diverse urban environments |
+| Phase 2 (ASCE2027) | Waymo WOMD | 286 scenarios | Autonomous driving scenes | Validate PRISM across diverse urban environments |
+
 ## System Architecture
 
 ### Architecture Diagrams
