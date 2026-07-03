@@ -182,6 +182,28 @@ graph TB
     style FI fill:#ffe4b5
 ```
 
+### Architecture Diagrams
+
+#### SafeDriver-IQ (Phase 1) Architecture
+
+![SafeDriver-IQ Architecture](docs/images/safedriver_iq_architecture.png)
+
+SafeDriver-IQ is the first-generation inverse crash modeling system. It combines national crash statistics (CRSS 2016–2023) with real-world behavioral data (Waymo WOMD) to train a binary crash classifier, then inverts its predicted probability of *not* crashing into a continuous 0–100 safety score. The pipeline includes data ingestion, feature engineering (120+ variables), crash pattern analysis, model training, and a real-time scoring interface that maps scores to five risk levels: Critical, High, Medium, Low, and Excellent.
+
+#### PRISM (Phase 2) Agentic Multi-Model Architecture
+
+![PRISM Architecture](docs/images/prism_architecture.png)
+
+PRISM (Proactive Risk Intelligence and Safety Management) extends SafeDriver-IQ into a four-layer agentic architecture:
+
+1. **Layer 1 — Data Ingestion and Normalization**: Converts heterogeneous AV datasets (nuScenes, Argoverse 2, Waymo WOMD) into a unified `DrivingScene` representation.
+2. **Layer 2 — Parallel Risk Models**: Runs three independent models concurrently:
+   - **Environmental Risk**: Reuses the frozen SafeDriver-IQ random forest as a context estimator.
+   - **Trajectory Kinematic**: Evaluates speed, acceleration, and yaw-rate exceedances.
+   - **VRU Interaction**: Uses a Social Force Model + LSTM to predict ego-VRU conflicts.
+3. **Layer 3 — Agentic Reasoning**: Fuses risks via a DQN reinforcement learning agent, selects one of four intervention tiers (silent, advisory, intervention, emergency), and provides SHAP-based explanations with short-term and long-term memory.
+4. **Layer 4 — Applications**: Supports ADAS integration, fleet risk management, and infrastructure planning without dataset-specific retraining.
+
 ## Project Structure
 
 ```
@@ -189,6 +211,8 @@ graph TB
 │   ├── scripts/                # Analysis scripts (AV2, Waymo, nuScenes)
 │   ├── data/                   # Validation results (CSV/JSON)
 │   └── figures/                # Paper figures
+├── docs/
+│   └── images/                 # Architecture diagrams (SafeDriver-IQ + PRISM)
 ├── CRSS_Data/                  # National crash database (2016-2023)
 │   ├── 2016/                   # Year-wise crash data
 │   ├── 2017/
