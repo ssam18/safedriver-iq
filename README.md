@@ -101,9 +101,9 @@ The research paper builds on this project and formally introduces:
 | Explainability (SHAP) | `notebooks/03_shap_analysis.ipynb` |
 | Real-time scoring system | `src/realtime_calculator.py` |
 
-### 🧾 Authors
+### 🧾 Main Contributors
 
-| Author | Affiliation | Role | Contribution |
+| Contributors | Affiliation | Role | Contribution |
 |---|---|---|---|
 | Samaresh Kumar Singh | Independent Researcher & IEEE Sr. Member | Phase 1 & 2 architecture, modeling, validation |
 | joyjit Roy | Independent Researcher & IEEE Sr. Member | Phase 1 & 2 system design, experimentation |
