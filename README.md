@@ -103,8 +103,8 @@ The research paper builds on this project and formally introduces:
 
 ### 🧾 Main Contributors
 
-| Contributors | Affiliation | Contribution
-|---|---|---|---|
+| Contributors | Affiliation | Contribution |
+|---|--|---|
 | Samaresh Kumar Singh | Independent Researcher & IEEE Sr. Member | Phase 1 & 2 architecture, modeling, validation |
 | joyjit Roy | Independent Researcher & IEEE Sr. Member | Phase 1 & 2 system design, experimentation |
 
